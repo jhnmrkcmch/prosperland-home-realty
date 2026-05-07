@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('office_space', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->integer('age');
-            $table->string('role')->default('user');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();   
+            $table->string('property_code');
+            $table->string('property_type');
+            $table->string('property_owner');
+            $table->integer('contact_number');
+            $table->string('facebook_link');  
         });
 
         DB::statement('ALTER TABLE users AUTO_INCREMENT = 22142791');
