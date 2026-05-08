@@ -13,26 +13,51 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('office_space', function (Blueprint $table) {
-            $table->id();
-            $table->string('property_code');
-            $table->string('property_type');
-            $table->string('property_owner');
-            $table->integer('contact_number');
-            $table->string('facebook_link');  
-        });
+    Schema::create('warehouses', function (Blueprint $table) {
+        $table->id();
+        $table->string('code_no')->unique();
+        $table->string('status'); // Active, Sold, Reserved
+        $table->decimal('selling_price', 15, 2);
+        $table->decimal('last_price', 15, 2);
+        $table->string('price_type'); // Net or Gross
+        $table->string('commission');
 
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 22142791');
+        // Contact Info
+        $table->string('owner_name');
+        $table->string('owner_contact');
+        $table->string('contact_person')->nullable();
+        $table->string('cp_number')->nullable();
+        $table->string('email')->nullable();
+        $table->string('fb_link')->nullable();
+        $table->string('referrer_agent')->nullable();
 
-        DB::table('users')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'age' => 25,
-            'role' => 'admin',
-            'password' => Hash::make('admin123'), // hashed
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // Property Specs
+        $table->text('exact_address');
+        $table->string('vicinity');
+        $table->string('city_municipality');
+        $table->double('lot_area');
+        $table->double('floor_area');
+        $table->text('description'); // Furnished/Bare
+        $table->string('condition'); // Brand New/Pre-owned
+
+        // Payment Terms
+        $table->string('payment_mode');
+        $table->decimal('reservation_fee', 15, 2);
+        $table->decimal('downpayment', 15, 2);
+        $table->integer('dp_terms');
+        $table->text('inclusions'); // Seller expense
+        $table->text('buyer_expense');
+        $table->decimal('move_in_fee', 15, 2);
+        $table->decimal('misc_fees', 15, 2);
+
+        // Media & Notes
+        $table->text('remarks')->nullable();
+        $table->string('ext_photos')->nullable();
+        $table->string('int_photos')->nullable();
+        $table->string('v_videos')->nullable();
+        $table->string('h_videos')->nullable();
+        $table->timestamps();
+    });
     }
 
     /**
